@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Safe Portal IN — Real-Time Citizen Safety Monitoring</title>
+    <link rel="stylesheet" href="Styles.css">
+    <!-- Leaflet CSS (for clickable map view) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-sA+e2w1k8kBq3k7w6kqj0r0x1gGkXw7g8b5GkT9r3A0=" crossorigin="" />
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand">
+                <div class="logo">🛡️</div>
+                <div>
+                    <div class="brand-title">Safe Portal <span class="brand-sub">IN</span></div>
+                    <div class="brand-small">Government Monitoring System</div>
+                </div>
+            </div>
+
+            <nav class="nav">
+                <a href="#destinations">Destinations</a>
+                <a href="#nearby">Nearby</a> <!-- ← NEW: Nearby link -->
+                <a href="#tracking">Citizens Tracking</a>
+
+                <div class="nav-dropdown">
+                    <button class="btn btn-outline dropdown-toggle">Services ▾</button>
+                    <div class="dropdown-menu">
+                        <a href="services.html#guides">Guides</a>
+                        <a href="services.html#photographer">Photographer</a>
+                        <a href="services.html#driver">Driver</a>
+                    </div>
+                </div>
+
+                <a href="seasonal.html">Seasonal Trips</a>
+                <a href="signup.html">Sign In</a>
+                <a class="btn btn-primary" href="#download">Get Started</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-content container">
+
+                <div class="badge">Government of India Tourism Safety Monitoring</div>
+
+                <h1>
+                    Real-Time Citizen <br>
+                    <span class="accent">Tourism Monitoring Portal</span>
+                </h1>
+
+                <p class="lead">
+                    India's official tourism safety platform with real-time tracking, SOS alerts, and verified safety
+                    updates for secure travel.
+                </p>
+
+                <div class="search-row">
+                    <div class="search">
+                        <span class="icon">📍</span>
+                        <input id="searchInput" placeholder="Search destinations to monitor safety status…" />
+                    </div>
+                    <button id="viewReportsBtn" class="btn btn-primary">View Safety Reports</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- STATS -->
+        <section class="stats container">
+            <div class="stat-actions">
+                <button class="btn btn-outline">Monitor Citizens</button>
+                <button id="sosCenterBtn" class="btn btn-danger">SOS Emergency Center</button>
+            </div>
+
+            <div class="stat-cards">
+                <div class="card stat-card">
+                    <div class="big">30+</div>
+                    <div class="muted">States Covered</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="big">5L+</div>
+                    <div class="muted">Citizens Tracked</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="big">1000+</div>
+                    <div class="muted">Daily Alerts</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="big">&lt;5min</div>
+                    <div class="muted">Avg Response Time</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DESTINATIONS -->
+        <section id="destinations" class="container destinations">
+            <h2>लोकप्रिय भारतीय गंतव्य<br><span class="muted">Popular Indian Destinations</span></h2>
+            <p class="center muted">View safety scores & real-time info for top destinations.</p>
+
+            <div class="cards-grid">
+
+                <article class="card">
+                    <div class="card-media" style="background-image:url('${d.img}')"></div>
+                    <div class="card-body">
+                        <h3>${d.name}</h3>
+                        <div class="rating">★★★★☆ <span class="rating-number">${d.rating}</span></div>
+                        <div class="nearby-distance">${d.distance.toFixed(1)} km away</div>
+                        <div class="status ${d.status.toLowerCase().includes('safe') ? 'safe' : 'moderate'}">${d.status}
+                        </div>
+                        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+                            <button class="btn btn-outline view-map" data-lat="${d.lat}" data-lon="${d.lon}"
+                                data-name="${encodeURIComponent(d.name)}" data-rating="${d.rating}"
+                                data-status="${d.status}">View on Map</button>
+                            <button class="btn btn-primary"
+                                onclick="openSosForPlace && openSosForPlace('${encodeURIComponent(d.name)}')">Send
+                                SOS</button>
+                        </div>
+                    </div>
+                </article>
+
+
+                <!-- DESTINATION CARD -->
+                <article class="card dest-card">
+                    <div class="card-media" style="background-image:url('your-image-link.jpg')"></div>
+
+                    <div class="card-body">
+
+                        <h3>Shimla, Himachal Pradesh</h3>
+
+                        <!-- Rating Area -->
+                        <div class="rating">
+                            ★★★★☆ <span class="rating-number">4.5</span>
+                        </div>
+
+                        <div class="status safe">Very Safe</div>
+                    </div>
+                </article>
+
+
+                <article class="card dest-card">
+                    <div class="card-media" style="background-image:url('your-image-link.jpg')"></div>
+
+                    <div class="card-body">
+
+                        <h3>Leh-Ladakh, Jammu & Kashmir</h3>
+
+                        <div class="rating">
+                            ★★★☆☆ <span class="rating-number">3.0</span>
+                        </div>
+
+                        <div class="status moderate">Moderate</div>
+                    </div>
+                </article>
+
+
+                <article class="card dest-card">
+                    <div class="card-media" style="background-image:url('your-image-link.jpg')"></div>
+
+                    <div class="card-body">
+
+                        <h3>Manali, Himachal Pradesh</h3>
+
+                        <div class="rating">
+                            ★★★★☆ <span class="rating-number">4.2</span>
+                        </div>
+
+                        <div class="status safe">Safe</div>
+                    </div>
+                </article>
+
+
+            </div>
+        </section>
+
+        <!-- SOS SECTION -->
+        <section class="sos-cta">
+            <div class="container sos-inner">
+                <h2>Citizen Emergency SOS</h2>
+                <p>Send emergency alerts to authorities with real-time location.</p>
+
+                <button id="activateSosBtn" class="btn btn-primary large">
+                    Activate Emergency SOS
+                </button>
+            </div>
+        </section>
+        <!-- NEARBY LOCATIONS -->
+        <section id="nearby" class="container destinations" style="margin-top:28px;">
+            <h2>Nearby Locations Around You<br>
+                <span class="muted">Places close to your current location</span>
+            </h2>
+            <p class="center muted">Allow location access to see nearby monitored destinations.</p>
+
+            <div class="center" style="margin-top:12px;">
+                <button id="findNearbyBtn" class="btn btn-primary">Find Nearby Places</button>
+            </div>
+
+            <div id="nearbyMessage" class="center muted small" style="margin-top:12px;"></div>
+
+            <div id="nearbyGrid" class="cards-grid" style="margin-top:18px;">
+                <!-- JS will insert nearby cards automatically -->
+            </div>
+        </section>
+
+
+        <!-- FEATURES -->
+        <section id="tracking" class="container features">
+            <h2>Government Monitoring & Citizen Protection Features</h2>
+
+            <div class="cards-grid-3">
+
+                <div class="card feature-card">
+                    <div class="icon">📞</div>
+                    <h4>One-Tap SOS</h4>
+                    <p>Send alerts to verified emergency responders.</p>
+                </div>
+
+                <div class="card feature-card">
+                    <div class="icon">📍</div>
+                    <h4>Live Location Tracking</h4>
+                    <p>Monitor real-time movement across India.</p>
+                </div>
+
+                <div class="card feature-card">
+                    <div class="icon">🔔</div>
+                    <h4>Smart Safety Alerts</h4>
+                    <p>Receive automated alerts for risks.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DOWNLOAD -->
+        <section id="download" class="download container">
+            <div class="download-card">
+                <h2>Download SafeTravel Today</h2>
+                <p class="muted center">Available on iOS & Android</p>
+
+                <div class="center buttons">
+                    <a class="store-btn" href="#">App Store</a>
+                    <a class="store-btn" href="#">Google Play</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            © 2024 Safe Portal IN — Government of India.
+        </div>
+    </footer>
+
+    <!-- SOS Modal -->
+    <div id="sosModal" class="modal">
+        <div class="modal-inner">
+            <h3>Send Emergency SOS?</h3>
+            <p>Your location will be shared with authorities.</p>
+            <div class="modal-actions">
+                <button id="confirmSos" class="btn btn-danger">Confirm SOS</button>
+                <button id="cancelSos" class="btn btn-outline">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAP MODAL (Leaflet) -->
+    <div id="mapModal" class="modal" aria-hidden="true">
+        <div class="modal-inner" style="max-width:900px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <h3 style="margin:0">Map — Nearby Locations</h3>
+                <div>
+                    <button id="zoomAllBtn" class="btn btn-outline" style="margin-right:8px;">Zoom to All</button>
+                    <button id="closeMapBtn" class="btn btn-primary">Close Map</button>
+                </div>
+            </div>
+            <div id="mapContainer" style="width:100%;height:520px;border-radius:8px;overflow:hidden;"></div>
+        </div>
+    </div>
+
+
+    <script src="Script.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-Vy5Q5bG3wSg0mVQF3dQXw4o3dQH6RkqQK3s4Vb8GgJ0=" crossorigin=""></script>
+
+</body>
+
+</html>
